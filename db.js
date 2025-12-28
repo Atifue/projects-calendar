@@ -1,4 +1,10 @@
+const dns = require("dns");
 const { Pool } = require("pg");
+
+// Force IPv4 first to avoid IPv6-only resolution issues on some hosts.
+if (typeof dns.setDefaultResultOrder === "function") {
+  dns.setDefaultResultOrder("ipv4first");
+}
 
 const databaseUrl = process.env.DATABASE_URL || "";
 if (!databaseUrl) {
