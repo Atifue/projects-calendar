@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><%= event.title %> • The Projects</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page event-page">
+      <nav class="nav">
+        <a href="/" class="back-link">&#8592; Back to calendar</a>
+      </nav>
+
+      <section class="event-hero card">
+        <div>
+          <p class="eyebrow">Event</p>
+          <h1><%= event.title %></h1>
+          <p class="event-meta">
+            <span><%= event.event_date %></span>
+            <% if (event.event_time) { %>
+              <span>• <%= event.event_time %></span>
+            <% } %>
+            <% if (event.location) { %>
+              <span>• <%= event.location %></span>
+            <% } %>
+          </p>
+          <p class="event-description"><%= event.description %></p>
+        </div>
+      </section>
+
+      <section class="event-grid">
+        <div class="card rsvp-card">
+          <p class="eyebrow">RSVP</p>
+          <h2>Who's in</h2>
+          <% if (rsvps.length === 0) { %>
+            <p class="muted">Be the first to RSVP.</p>
+          <% } else { %>
+            <ul class="rsvp-list">
+              <% rsvps.forEach(rsvp => { %>
+                <li>
+                  <span class="rsvp-name"><%= rsvp.name %></span>
+                  <span class="rsvp-time"><%= rsvp.created_at %></span>
+                  <form method="post" action="/rsvps/<%= rsvp.id %>/delete" data-admin-action>
+                    <input type="hidden" name="admin" value="" />
+                    <button type="submit" class="trash-button" aria-label="Remove RSVP">
+                      Trash
+                    </button>
+                  </form>
+                </li>
+              <% }) %>
+            </ul>
+          <% } %>
+        </div>
+
+        <div class="card rsvp-form-card">
+          <p class="eyebrow">Join</p>
+          <h2>Drop your name</h2>
+          <% if (error) { %>
+            <p class="form-error"><%= error %></p>
+          <% } %>
+          <% if (alreadyRsvped) { %>
+            <p class="muted">You already RSVP'd for this event.</p>
+          <% } %>
+          <form method="post" action="/events/<%= event.id %>/rsvp" class="rsvp-form">
+            <label>
+              Name
+              <input type="text" name="name" placeholder="Your name" required <%= alreadyRsvped ? "disabled" : "" %> />
+            </label>
+            <button type="submit" class="primary-button" <%= alreadyRsvped ? "disabled" : "" %>>RSVP</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="card admin-card">
+        <p class="eyebrow">Admin</p>
+        <h2>Moderation</h2>
+        <% if (adminError) { %>
+          <p class="form-error"><%= adminError %></p>
+        <% } %>
+        <form method="post" action="/events/<%= event.id %>/delete" class="admin-form" data-admin-action>
+          <input type="hidden" name="admin" value="" />
+          <button type="submit" class="danger-button" aria-label="Delete event">Trash event</button>
+        </form>
+        <p class="muted">Admins only. Token required for deletions.</p>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>

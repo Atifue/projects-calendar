@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Projects Planner</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div class="logo">
+          <img class="logo-img" src="/pics/IMG_0647.png" alt="The Projects logo" />
+          <div>
+            <p class="logo-top">The Projects</p>
+            <h1 class="logo-name">Calendar</h1>
+          </div>
+        </div>
+        <p class="tagline">
+          Projects Calendar.
+        </p>
+      </section>
+
+      <section class="hub">
+        <div class="card calendar-card">
+          <div class="card-header">
+            <div>
+              <p class="eyebrow">Calendar</p>
+              <h2>Pick a day, pick a plan</h2>
+            </div>
+            <div class="calendar-controls">
+              <a class="secondary-button" href="/events/new">Create event</a>
+              <button class="icon-button" id="prevMonth" aria-label="Previous month">
+                &#8592;
+              </button>
+              <button class="icon-button" id="nextMonth" aria-label="Next month">
+                &#8594;
+              </button>
+            </div>
+          </div>
+          <div class="calendar" id="calendar"></div>
+        </div>
+
+        <aside class="card upcoming-card">
+          <p class="eyebrow">Upcoming</p>
+          <h3>What's next</h3>
+          <div class="upcoming-list">
+            <% if (upcoming.length === 0) { %>
+              <p class="muted">No plans on deck yet.</p>
+            <% } %>
+            <% upcoming.forEach(event => { %>
+              <a class="upcoming-item" href="/events/<%= event.id %>">
+                <div>
+                  <p class="upcoming-title"><%= event.title %></p>
+                  <p class="upcoming-meta">
+                    <span><%= event.event_date %></span>
+                    <% if (event.event_time) { %>
+                      <span>• <%= event.event_time %></span>
+                    <% } %>
+                  </p>
+                </div>
+                <span class="badge">
+                  <%= counts[event.id] || 0 %> RSVPs
+                </span>
+              </a>
+            <% }) %>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script>
+      window.__EVENTS__ = <%- JSON.stringify(events) %>;
+    </script>
+    <script src="/app.js"></script>
+  </body>
+</html>

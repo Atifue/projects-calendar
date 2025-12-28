@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create Event • The Projects</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page event-page">
+      <nav class="nav">
+        <a href="/" class="back-link">&#8592; Back to calendar</a>
+      </nav>
+
+      <section class="card rsvp-form-card">
+        <p class="eyebrow">Create</p>
+        <h1>New event</h1>
+        <% if (error) { %>
+          <p class="form-error"><%= error %></p>
+        <% } %>
+        <form method="post" action="/events" class="rsvp-form">
+          <label>
+            Title
+            <input type="text" name="title" placeholder="Event title" required />
+          </label>
+          <label>
+            Date
+            <input type="date" name="event_date" required />
+          </label>
+          <label>
+            Time
+            <input type="time" name="event_time" />
+          </label>
+          <label>
+            Location
+            <input type="text" name="location" placeholder="Discord channel or location" />
+          </label>
+          <label>
+            Description
+            <textarea name="description" rows="5" placeholder="What's the plan?" required></textarea>
+          </label>
+          <button type="submit" class="primary-button">Create event</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
