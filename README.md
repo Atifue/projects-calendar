@@ -2,7 +2,7 @@
 
 Live: https://www.projectsmc.xyz
 
-A lightweight events + RSVP app used by The Projects community. It renders a
+A lightweight events + RSVP app. It renders a
 calendar view, highlights upcoming plans, and lets members RSVP to each event.
 
 ## Features
