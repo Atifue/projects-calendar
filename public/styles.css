@@ -249,6 +249,19 @@ h3 {
   border-radius: 50%;
   border: 1px dashed rgba(255, 255, 255, 0.3);
   background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.member-avatar.avatar-unc {
+  background-image: url("/pics/unc.png");
+  border-style: solid;
+}
+
+.member-avatar.avatar-ralph {
+  background-image: url("/pics/ralph.png");
+  border-style: solid;
 }
 
 .member-name {
