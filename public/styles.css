@@ -264,6 +264,11 @@ h3 {
   border-style: solid;
 }
 
+.member-avatar.avatar-spencer {
+  background-image: url("/pics/spencer.jpg");
+  border-style: solid;
+}
+
 .member-name {
   margin: 0;
   font-size: 14px;
