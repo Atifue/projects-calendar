@@ -268,7 +268,10 @@ h3 {
   background-image: url("/pics/spencer.jpg");
   border-style: solid;
 }
-
+.member-avatar.avatar-ajay {
+  background-image: url("/pics/ajay.png");
+  border-style: solid;
+}
 .member-avatar.avatar-juice {
   background-image: url("/pics/juice.jpg");
   border-style: solid;
