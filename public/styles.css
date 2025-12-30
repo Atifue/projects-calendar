@@ -269,6 +269,11 @@ h3 {
   border-style: solid;
 }
 
+.member-avatar.avatar-juice {
+  background-image: url("/pics/juice.jpg");
+  border-style: solid;
+}
+
 .member-name {
   margin: 0;
   font-size: 14px;
