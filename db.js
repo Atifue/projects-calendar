@@ -39,6 +39,44 @@ const initDb = async () => {
     );
   `);
 
+  // Enable RLS and create policies for service role access
+  // This allows the server-side app to perform all operations
+  // Wrapped in try-catch to gracefully handle cases where:
+  // - RLS is already enabled
+  // - Policies already exist
+  // - Connection doesn't have permission (e.g., using service role which bypasses RLS)
+  try {
+    await pool.query(`
+      -- Enable RLS on events table (idempotent - safe if already enabled)
+      ALTER TABLE events ENABLE ROW LEVEL SECURITY;
+      
+      -- Enable RLS on rsvps table (idempotent - safe if already enabled)
+      ALTER TABLE rsvps ENABLE ROW LEVEL SECURITY;
+      
+      -- Drop existing policies if they exist (to avoid conflicts)
+      DROP POLICY IF EXISTS "Allow all operations for service role on events" ON events;
+      DROP POLICY IF EXISTS "Allow all operations for service role on rsvps" ON rsvps;
+      
+      -- Create policies that allow all operations
+      -- Using 'true' condition allows all operations for any role
+      -- Note: If using service role connection string, RLS is bypassed anyway
+      CREATE POLICY "Allow all operations for service role on events"
+        ON events FOR ALL
+        USING (true)
+        WITH CHECK (true);
+      
+      CREATE POLICY "Allow all operations for service role on rsvps"
+        ON rsvps FOR ALL
+        USING (true)
+        WITH CHECK (true);
+    `);
+  } catch (error) {
+    // If policy creation fails (e.g., already exists, no permission, or service role bypasses RLS),
+    // log a warning but don't fail initialization
+    // eslint-disable-next-line no-console
+    console.warn("RLS policy setup warning (this is usually safe to ignore):", error.message);
+  }
+
   const { rows } = await pool.query("SELECT COUNT(*)::int AS count FROM events");
   if (rows[0].count === 0) {
     const today = new Date();
